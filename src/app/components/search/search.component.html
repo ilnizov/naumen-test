@@ -1,0 +1,20 @@
+<div class="search-form mt-2 input-group mb-2">
+  <input appShowSuggestions type="search" class="form-control search-form__input"
+         placeholder="Поиск (макс. количество найденных статей - 30)" maxlength="60"
+         [(ngModel)]="searchQuery"
+         (keyup)="showArticlesKeyup($event)" [formControl]="typeahead"
+         (input)="suggest()" (focus)="toggleSuggestions()">
+  <div class="input-  group-append">
+    <button class="btn btn-outline-secondary search-form__btn" type="submit"
+      (click)="showArticles()" [disabled]="searchQuery.trim() === ''">Искать</button>
+  </div>
+</div>
+<div class="suggestions" *ngIf="showSuggestions && suggestions.length">
+  <small class="text-muted">Ваши прошлые запросы:</small>
+  <p class="suggestions__link"
+     *ngFor="let suggest of suggestions"
+     (click)="toggleSuggestions(); searchQuery = suggest; showArticles()"> {{ suggest }}</p>
+</div>
+
+<app-articles-list *ngIf="articles.length > 0" [articlesList]="articles">
+</app-articles-list>
